@@ -1,23 +1,30 @@
-import json, os
+import json
+import os
+
 from dotenv import load_dotenv
 from openai import OpenAI
 
-
-load_dotenv('../.env')
+load_dotenv("../.env")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
 
 # OpenAIが使用する関数の定義
 def get_current_weather(location, unit="fahrenheit"):
     if "tokyo" in location.lower():
-        return json.dumps({"location": "Tokyo", "temperature": "10", "unit": unit})
+        return json.dumps(
+            {"location": "Tokyo", "temperature": "10", "unit": unit}
+        )
     elif "san francisco" in location.lower():
         return json.dumps(
             {"location": "San Francisco", "temperature": "72", "unit": unit}
         )
     elif "paris" in location.lower():
-        return json.dumps({"location": "Paris", "temperature": "22", "unit": unit})
+        return json.dumps(
+            {"location": "Paris", "temperature": "22", "unit": unit}
+        )
     else:
         return json.dumps({"location": location, "temperature": "unknown"})
+
 
 # OpenAIが使用可能な関数のリスト
 tools = [
@@ -28,12 +35,15 @@ tools = [
             "description": "Get the current weather in a given location",
             "parameters": {
                 "type": "object",
-                "properties": { # 関数に渡す引数
+                "properties": {  # 関数に渡す引数
                     "location": {
                         "type": "string",
                         "description": "The city and state, e.g. San Francisco, CA",
                     },
-                    "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
+                    "unit": {
+                        "type": "string",
+                        "enum": ["celsius", "fahrenheit"],
+                    },
                 },
                 "required": ["location"],
             },
@@ -51,7 +61,7 @@ messages = [
 response = client.chat.completions.create(
     model="gpt-4o",
     messages=messages,
-    tools=tools, # toolsを与える
+    tools=tools,  # toolsを与える
 ).to_json()
 print(response)
 
