@@ -1,7 +1,8 @@
 from langchain_core.output_parsers import PydanticOutputParser
-from pydantic import BaseModel, Field
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
+from pydantic import BaseModel, Field
+
 
 # Recipeクラスを定義
 class Recipe(BaseModel):
@@ -15,13 +16,16 @@ output_parser = PydanticOutputParser(pydantic_object=Recipe)
 
 prompt = ChatPromptTemplate.from_messages(
     [
-        ("system", "ユーザーが入力した料理のレシピを考えてください。\n\n{format_instructions}"),
+        (
+            "system",
+            "ユーザーが入力した料理のレシピを考えてください。\n\n{format_instructions}",
+        ),
         ("human", "{dish}"),
     ]
 )
 
 prompt_with_format_instructions = prompt.partial(
-    format_instructions = output_parser.get_format_instructions() # Recipeのフォーマットを指定
+    format_instructions=output_parser.get_format_instructions()  # Recipeのフォーマットを指定
 )
 
 model = ChatOpenAI(mkdel="gpt-4o-mini", temperature=0).bind(
