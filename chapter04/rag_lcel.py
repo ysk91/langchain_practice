@@ -11,6 +11,7 @@ from langchain_text_splitters import CharacterTextSplitter
 def file_filter(file_path: str) -> bool:
     return file_path.endswith(".mdx")
 
+
 # ドキュメントのロード
 loader = GitLoader(
     clone_url="https://github.com/langchain-ai/langchain",
@@ -35,7 +36,8 @@ retriever = db.as_retriever()
 # 以下のように使用する
 # context_docs = retriever.invoke(query)
 
-prompt = ChatPromptTemplate.from_template('''\
+prompt = ChatPromptTemplate.from_template(
+    '''\
 以下の文脈だけを踏まえて質問に回答してください。
 
 文脈: """
@@ -43,7 +45,8 @@ prompt = ChatPromptTemplate.from_template('''\
 """
 
 質問: {question}
-''')
+'''
+)
 
 model = ChatOpenAI(model_name="gpt-4o-mini", temperature=0)
 
