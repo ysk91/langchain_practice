@@ -38,7 +38,7 @@ tools = [
                 "properties": {  # 関数に渡す引数
                     "location": {
                         "type": "string",
-                        "description": "The city and state, e.g. San Francisco, CA",
+                        "description": "The city, e.g. San Francisco, Tokyo",
                     },
                     "unit": {
                         "type": "string",

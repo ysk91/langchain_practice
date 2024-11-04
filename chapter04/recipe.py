@@ -25,7 +25,8 @@ prompt = ChatPromptTemplate.from_messages(
 )
 
 prompt_with_format_instructions = prompt.partial(
-    format_instructions=output_parser.get_format_instructions()  # Recipeのフォーマットを指定
+    # Recipeのフォーマットを指定
+    format_instructions=output_parser.get_format_instructions()
 )
 
 model = ChatOpenAI(mkdel="gpt-4o-mini", temperature=0).bind(
